@@ -1,0 +1,35 @@
+:root {
+    --white: #ffffff;
+    --off-white: #ede7d8;
+    --light-gray: #f0f0f0;
+    --light-gray2: #dfdfdf;
+    --transp-white-1: rgba(255,255,255,0.25);
+    --transp-white-2: rgba(255,255,255,0.1);
+    --blue-1: #62b8f5;
+    --blue02: #4475ef;
+    --shadow: rgba(3,46,87,0.2);
+    --dark-shadow: #2e2b3d;
+    --green: #08f800;
+    --yellow: #e3d400;
+    --orange: #de910d;
+    --gray1: #a4a4a4;
+
+}
+
+/* Global styles */
+*{
+    padding: 0; 
+    margin: 0; 
+    box-sizing: border-box; 
+    font-family: "Tenorite"; 
+}
+
+
+body {
+    margin: 10;
+  }
+  
+  #map {
+    width: 100%;
+    height: 100vh;
+  }
