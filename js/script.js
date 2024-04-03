@@ -6,20 +6,30 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-// Fetch data from the Macrostrat API
-fetch('https://macrostrat.org/api/fossils')
+// Fetch data from the PBDB API
+fetch('https://paleobiodb.org/data1.2/occs/list.json?interval=Permian&show=coords,loc')
   .then(response => response.json())
   .then(data => {
-    // Process the data and add markers to the map
-    data.success.data.forEach(fossil => {
-      const { lat, lng } = fossil;
-      L.marker([lat, lng]).addTo(map)
-        .bindPopup(`
-          <h3>${fossil.cltn_name}</h3>
-          <p>Unit ID: ${fossil.unit_id}</p>
-          <p>Column ID: ${fossil.col_id}</p>
-        `);
-    });
+    console.log('API response:', data);
+    
+    // Check if data.records exists and is an array
+    if (data.records && Array.isArray(data.records)) {
+      // Process the data and add markers to the map
+      data.records.forEach(occurrence => {
+        const { lat, lng } = occurrence;
+        
+        if (lat && lng) {
+          L.marker([lat, lng]).addTo(map)
+            .bindPopup(`
+              <h3>${occurrence.collection_name}</h3>
+              <p>Occurrence ID: ${occurrence.occurrence_no}</p>
+              <p>Taxon: ${occurrence.identified_name}</p>
+            `);
+        }
+      });
+    } else {
+      console.error('Invalid API response format');
+    }
   })
   .catch(error => {
     console.error('Error fetching data:', error);
