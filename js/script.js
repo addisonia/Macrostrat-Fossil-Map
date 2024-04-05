@@ -34,22 +34,22 @@ fetch('https://paleobiodb.org/data1.2/occs/list.json?state=Wisconsin&show=coords
             .then(macrostratData => {
               console.log('Macrostrat API response:', macrostratData);
 
-            // Extract relevant information from the Macrostrat API response
-            const unit = macrostratData.success.data[0];
-            console.log('Unit data:', unit);
+              // Extract relevant information from the Macrostrat API response
+              const unit = macrostratData.success.data[0];
+              console.log('Unit data:', unit);
+              const unitName = unit ? unit.unit_name || 'Unknown' : 'Unknown';
+              const unitID = unit ? unit.unit_id || 'Unknown' : 'Unknown';
+              const formation = unit ? unit.Fm || unit.unit_name || 'Unknown' : 'Unknown';
+              const group = unit ? unit.Gp || 'Unknown' : 'Unknown';
+              const columnArea = unit ? unit.col_area || 'Unknown' : 'Unknown';
+              const minThickness = unit ? unit.min_thick || 'Unknown' : 'Unknown';
+              const maxThickness = unit ? unit.max_thick || 'Unknown' : 'Unknown';
+              const geologicAge = unit && unit.b_age && unit.t_age ? `${unit.b_age} - ${unit.t_age} Ma` : 'Unknown';
 
-            const unitName = unit ? unit.unit_name || 'Unknown' : 'Unknown';
-            const unitID = unit ? unit.unit_id || 'Unkown' : 'Unknown';
-            const formation = unit ? unit.Fm || unit.unit_name || 'Unknown' : 'Unknown';
-            const group = unit ? unit.Gp || 'Unknown' : 'Unknown';
-            const columnArea = unit ? unit.col_area || 'Unknown' : 'Unknown';
-            const minThickness = unit ? unit.min_thick || 'Unknown' : 'Unknown';
-            const maxThickness = unit ? unit.max_thick || 'Unknown' : 'Unknown';
-            const geologicAge = unit && unit.b_age && unit.t_age ? `${unit.b_age} - ${unit.t_age} Ma` : 'Unknown';
-
-            // Create the marker with the popup content
-            L.marker([lat, lng]).addTo(map)
-            .bindPopup(`
+              // Create the marker with the popup content
+              const popup = L.popup({
+                className: getPopupColorClass(geologicAge)
+              }).setContent(`
                 <h3>${unitName}</h3>
                 <p><strong>Unit ID:</strong> ${unitID}</p>
                 <p><strong>Formation:</strong> ${formation}</p>
@@ -58,7 +58,9 @@ fetch('https://paleobiodb.org/data1.2/occs/list.json?state=Wisconsin&show=coords
                 <p><strong>Min Thickness:</strong> ${minThickness} m</p>
                 <p><strong>Max Thickness:</strong> ${maxThickness} m</p>
                 <p><strong>Geologic Age:</strong> ${geologicAge}</p>
-            `);
+              `);
+
+              L.marker([lat, lng]).addTo(map).bindPopup(popup);
             })
             .catch(error => {
               console.error('Error fetching Macrostrat data:', error);
@@ -72,3 +74,26 @@ fetch('https://paleobiodb.org/data1.2/occs/list.json?state=Wisconsin&show=coords
   .catch(error => {
     console.error('Error fetching PBDB data:', error);
   });
+
+// Function to determine the popup color class based on geologic age
+function getPopupColorClass(age) {
+  if (age === 'Unknown') {
+    return 'popup-gray';
+  }
+
+  const ageRange = age.split(' - ');
+  const youngerAge = parseFloat(ageRange[1]);
+
+    // Check for invalid or undefined youngerAge
+    if (isNaN(youngerAge)) {
+        return 'popup-gray';
+        }
+
+    if (youngerAge <= 400) {
+        return 'popup-green';
+    } else if (youngerAge <= 450) {
+        return 'popup-yellow';
+    } else {
+        return 'popup-orange';
+    }
+}

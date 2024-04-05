@@ -1,20 +1,11 @@
 :root {
-    --white: #ffffff;
-    --off-white: #ede7d8;
-    --light-gray: #f0f0f0;
-    --light-gray2: #dfdfdf;
-    --transp-white-1: rgba(255,255,255,0.25);
-    --transp-white-2: rgba(255,255,255,0.1);
-    --blue-1: #62b8f5;
-    --blue02: #4475ef;
-    --shadow: rgba(3,46,87,0.2);
-    --dark-shadow: #2e2b3d;
+    --purple: #800080;
     --green: #08f800;
     --yellow: #e3d400;
-    --orange: #de910d;
-    --gray1: #a4a4a4;
-
-}
+    --orange: #FFA500;
+    --red: #ff0000;
+    --gray: #c8c7c7;
+  }
 
 /* Global styles */
 *{
@@ -28,8 +19,35 @@
 body {
     margin: 10;
   }
-  
+
+
   #map {
     width: 100%;
     height: 100vh;
   }
+
+
+/* Remove popup shadow */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  box-shadow: none;
+}
+
+
+
+/* Popup colors based on geologic age */
+.popup-green .leaflet-popup-content-wrapper {
+    background-color: var(--green);
+  }
+.popup-yellow .leaflet-popup-content-wrapper {
+    background-color: var(--yellow);
+}
+.popup-orange .leaflet-popup-content-wrapper {
+    background-color: var(--orange);
+}
+.popup-red .leaflet-popup-content-wrapper {
+    background-color: var(--red);
+}
+.popup-gray .leaflet-popup-content-wrapper {
+    background-color: var(--gray);
+}
