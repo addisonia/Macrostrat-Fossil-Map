@@ -105,7 +105,9 @@ function getPopupColorClass(age) {
         return 'popup-green';
     } else if (youngerAge <= 450) {
         return 'popup-yellow';
-    } else {
+    } else if (youngerAge <= 495) {
         return 'popup-orange';
+    } else {
+        return 'popup-red';
     }
 }
