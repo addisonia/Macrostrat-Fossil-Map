@@ -27,11 +27,11 @@ body {
   }
 
 
-/* Remove popup shadow */
-.leaflet-popup-content-wrapper,
-.leaflet-popup-tip {
-  box-shadow: none;
-}
+/* Hide the popup shadow */
+.leaflet-popup-shadow {
+    display: none !important;
+  }
+  
 
 
 

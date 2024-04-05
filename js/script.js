@@ -6,6 +6,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
+
 // Fetch data from the PBDB API
 fetch('https://paleobiodb.org/data1.2/occs/list.json?state=Wisconsin&show=coords,loc,coll,strat,stratext,lith')
   .then(response => {
@@ -60,7 +61,18 @@ fetch('https://paleobiodb.org/data1.2/occs/list.json?state=Wisconsin&show=coords
                 <p><strong>Geologic Age:</strong> ${geologicAge}</p>
               `);
 
-              L.marker([lat, lng]).addTo(map).bindPopup(popup);
+                // Define a custom icon without a shadow
+                var myIcon = L.icon({
+                    iconUrl: 'images/fossil.png', // Specify your icon's URL
+                    iconSize: [60, 60], // Set the size of the icon
+                    iconAnchor: [29, 82], // Set the position of the "tip" of the icon
+                    popupAnchor: [-3, -76], // Set the position where the popup should "emerge" from
+                    shadowUrl: null
+                });
+                
+                // Use the custom icon when creating markers
+                L.marker([lat, lng], { icon: myIcon }).addTo(map).bindPopup(popup);
+  
             })
             .catch(error => {
               console.error('Error fetching Macrostrat data:', error);
