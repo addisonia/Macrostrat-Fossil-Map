@@ -1,5 +1,5 @@
 // Initialize the map centered on Wisconsin
-const map = L.map('map').setView([44.5, -89.5], 6);
+const map = L.map('map').setView([44.5, -89.5], 7);
 
 // Add the tile layer
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -22,7 +22,8 @@ fetch('https://paleobiodb.org/data1.2/occs/list.json?state=Wisconsin&show=coords
     if (data.records && Array.isArray(data.records)) {
       // Process the data and add markers to the map
       data.records.forEach(occurrence => {
-        const { lat, lng } = occurrence;
+        const { lat, lng} = occurrence;
+
         if (lat && lng) {
           // Fetch additional details from the Macrostrat API
           fetch(`https://macrostrat.org/api/units?lat=${lat}&lng=${lng}`)
@@ -34,6 +35,12 @@ fetch('https://paleobiodb.org/data1.2/occs/list.json?state=Wisconsin&show=coords
             })
             .then(macrostratData => {
               console.log('Macrostrat API response:', macrostratData);
+
+            // Check if the unit ID matches the one we want to exclude
+            const unitid = macrostratData.success.data[0];
+            if (unitid && unitid.unit_id === 11704) { //skip this one in Indiana
+                return;
+            }
 
               // Extract relevant information from the Macrostrat API response
               const unit = macrostratData.success.data[0];
