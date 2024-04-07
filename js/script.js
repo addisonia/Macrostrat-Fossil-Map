@@ -1,5 +1,5 @@
 // Initialize the map centered on Wisconsin
-const map = L.map('map').setView([44.5, -89.5], 7);
+const map = L.map('map').setView([44.2, -89.5], 7);
 
 // Add the tile layer
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -118,3 +118,16 @@ function getPopupColorClass(age) {
         return 'popup-red';
     }
 }
+
+
+//change background tint on map
+// // Assuming your map variable is already initialized and the map is displayed
+// var overlay = L.DomUtil.create('div', 'map-overlay', document.getElementById('map'));
+// overlay.style.position = 'absolute';
+// overlay.style.top = '0';
+// overlay.style.left = '0';
+// overlay.style.width = '100%';
+// overlay.style.height = '100%';
+// overlay.style.backgroundColor = 'rgba(136, 95, 136, 0.2)';
+// overlay.style.pointerEvents = 'none';
+// overlay.style.zIndex = '400';
